@@ -1,44 +1,33 @@
-// script.js
-const messageEl = document.getElementById('message');
-const btn = document.getElementById('surprise-btn');
-let clicked = false;
+// Confetti kütüphanesini index.html'e <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.min.js"></script> ile ekleyebilirsin.
 
-// Yazı makinesi efekti
-function typeWriter(text, i, fnCallback) {
-  if (i < text.length) {
-    messageEl.innerHTML = text.slice(0, i + 1);
-    setTimeout(() => typeWriter(text, i + 1, fnCallback), 100);
-  } else if (fnCallback) {
-    fnCallback();
-  }
-}
+document.addEventListener('DOMContentLoaded', () => {
+  // Müzik otomatik başla, kontrol ekle
+  const music = document.getElementById('bgMusic');
+  const ctrl = document.getElementById('musicControl');
+  music.play();
 
-// Özür mesajını başlat ve kalp yağdır
-function startApology() {
-  typeWriter("Sarılalım mı gülüm?", 0, () => {
-    btn.textContent = "Seni seviyorum❤️";
+  ctrl.addEventListener('click', () => {
+    if (music.paused) { music.play(); ctrl.textContent = '🔈'; }
+    else            { music.pause(); ctrl.textContent = '🔇'; }
   });
-  createHearts();
-}
 
-// Kalp elementi oluşturup rastgele yerden düşür
-function createHearts() {
-  setInterval(() => {
-    const heart = document.createElement('div');
-    heart.classList.add('heart');
-    heart.innerText = '❤';
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.fontSize = (Math.random() * 10 + 10) + 'px';
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 3000);
-  }, 200);
-}
+  // Sürpriz butonu + konfeti
+  const btn = document.getElementById('surpriseBtn');
+  btn.addEventListener('click', () => {
+    // Kütüphane ile konfeti
+    confetti({ particleCount: 150, spread: 60 });
+    btn.textContent = 'Seni seviyorum! 😘';
+    btn.disabled = true;
+  });
 
-btn.addEventListener('click', () => {
-  if (!clicked) {
-    clicked = true;
-    startApology();
-  } else {
-    alert("seni seviyorum ❤");
-  }
+  // Lightbox galerisi
+  document.querySelectorAll('.thumb').forEach(img => {
+    img.addEventListener('click', () => {
+      const lb = document.createElement('div');
+      lb.className = 'lightbox';
+      lb.innerHTML = `<img src="${img.src}"><span class="close">&times;</span>`;
+      document.body.appendChild(lb);
+      lb.querySelector('.close').onclick = () => lb.remove();
+    });
+  });
 });

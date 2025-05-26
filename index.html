@@ -1,18 +1,39 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sarılalım mı?</title>
-  <link href="https://fonts.googleapis.com/css?family=Sacramento|Shadows+Into+Light&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sürpriz Site 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1 id="message"></h1>
-    <button id="surprise-btn">Kapat</button>
-  </div>
+  <!-- Kalp animasyonu katmanı -->
+  <div class="hearts"></div>
+
+  <header class="hero">
+    <h1>Seni Seviyorum 💖</h1>
+    <p>Bu küçük site, içerdiğim tüm sevgiyi anlatamaz ama deneyeyim istedim!</p>
+    <button id="surpriseBtn" class="btn">Bana Tıkla!</button>
+  </header>
+
+  <section class="gallery">
+    <h2>Fotoğraflarımız</h2>
+    <div class="grid">
+      <img src="foto1.jpg" alt="" class="thumb">
+      <img src="foto2.jpg" alt="" class="thumb">
+      <img src="foto3.jpg" alt="" class="thumb">
+      <!-- Daha fazlasını ekleyebilirsin -->
+    </div>
+  </section>
+
+  <audio id="bgMusic" src="love_song.mp3" loop></audio>
+  <div id="musicControl">🔈</div>
+
+  <footer>
+    Made with ❤️ for [İsim]
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
