@@ -39,6 +39,6 @@ btn.addEventListener('click', () => {
     clicked = true;
     startApology();
   } else {
-    alert("Umarım beni affedersin ❤");
+    alert("seni seviyorum ❤");
   }
 });
