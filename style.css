@@ -1,0 +1,49 @@
+/* style.css */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #fce4ec;
+  overflow: hidden;
+}
+.container {
+  text-align: center;
+}
+h1 {
+  font-family: 'Sacramento', cursive;
+  font-size: 3rem;
+  color: #d81b60;
+  min-height: 4rem;
+}
+button {
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 1.5rem;
+  padding: 10px 20px;
+  border: none;
+  background: #ff80ab;
+  color: white;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+button:hover {
+  transform: scale(1.1);
+}
+.heart {
+  position: absolute;
+  color: #ff1744;
+  animation: fall 3s linear infinite;
+}
+@keyframes fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
