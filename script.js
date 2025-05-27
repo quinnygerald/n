@@ -1,4 +1,24 @@
 // script.js
+// ————— Tema Yönetimi —————
+const toggleBtn = document.getElementById('themeToggle');
+const saved = localStorage.getItem('theme');
+if (saved) {
+  document.documentElement.setAttribute('data-theme', saved);
+  toggleBtn.textContent = saved === 'dark' ? '☀️' : '🌙';
+} else {
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const initTheme = prefersDark ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', initTheme);
+  toggleBtn.textContent = initTheme === 'dark' ? '☀️' : '🌙';
+}
+toggleBtn.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  toggleBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+});
+// ———————————————————————
+
 
 // Müzik kontrol
 const music = document.getElementById('bgMusic');
@@ -13,8 +33,8 @@ const surpriseBtn = document.getElementById('surpriseBtn');
 
 // İltifatlar
 const compliments = [
-  'Dişlerine ölürüm 😍',
   'Az yaklaş da öpim 💓',
+  'Dişlerine ölürüm 😍',
   'Sen en büyük şansımsın 🍀',
   'Hayatımın anlamısın 💘'
 ];
@@ -105,10 +125,28 @@ function calculateDaysFuture() {
 calculateDaysFuture();
 
 const wordList = [
-  'nazlı', 'tatlı', 'gülme', 'şeker', 'güzel', 'dünya', 'kalem', 'kızıl',
-  'çocuk', 'renk', 'küçük', 'canım', 'yemek', 'bahar', 'çiçek', 'yolcu',
-  'aşkla', 'hoşça', 'gölge', 'üşüme'
+  "araba","bahar","çiçek","dünya","evren","insan","kalem","kapak","köpek","serçe",
+  "yılda","elmas","ekmek","çorba","meyve","armut","şeker","bahçe","şehir","köyde",
+  "mahal","gözüm","kalça","sevgi","mutlu","üzgün","hüzün","nefes","gelme","gitme",
+  "bekle","kazan","kayak","düşün","sevme","açlık","gülüm","sağda","solda","üstte",
+  "altta","pembe","kalbi","sabah","akşam","kadın","erkek","yaşlı","birim","beşer",
+  "topla","taşım","şimdi","yerli","gözde","sahip","sesli","tuzlu","sıcak","soğuk",
+  "pilav","dolma","kebab","kitap","okuma","yazar","merak","hayal","atlas","diyor",
+  "bakış","kusur","sevda","nazar","tarih","bugün","geçiş","yarar","çocuk","annem",
+  "babam","ablam","kızım","oğlum","selam","saçma","neden","bakan","olanı","eksen",
+  "adana","izmir","sivas","onbir","yirmi","final","dilim","simit","çaycı","kahve",
+  "patla","gönül","yakın","ispat","cesur","tatlı","dinle","arada","başka","dinme",
+  "içmek","ücret","noter","lokal","şehit","emlak","hapis","ithal","yerel","ultra",
+  "vatan","yedek","yetki","deniz","karar","öğren","öğret","yakıt","sürat","sevap",
+  "moral","temiz","kiraz","çizgi","ortak","sabır","seçim","bilet","sefer","anlam",
+  "geçer","azalt","artır","satın","almak","vergi","verme","dönüş","kader","kurum",
+  "limit","liste","resim","şifre","radyo","takas","maçta","ödeme","ayrım","pasaj",
+  "temas","yansı","yanın","anlat","buluş","işgal","karne","makul","mecaz","yavaş",
+  "hızlı","şarap","eşsiz","falcı","kısık","kısır","taraf","radar","kayık","kıyım",
+  "fidan","talih","sizin","sorun","sanat","modem","kodla","kodum","testi","yerim",
+  "aramı","aracı","tutku","kutup","kitle","kilit","firar","çilek","börek","helal"
 ];
+
 
 const validLetters = 'abcçdefgğhıijklmnoöprsştuüvyz';
 let secretWord = wordList[Math.floor(Math.random() * wordList.length)];
@@ -230,4 +268,6 @@ surpriseBtn.addEventListener('click', () => {
   typeIdx = 0;
   typeWriter();
   animateParticles();
+
+  surpriseBtn.textContent = 'bi daha?';
 });

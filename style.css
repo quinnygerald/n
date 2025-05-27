@@ -1,5 +1,41 @@
-/* style.css */
+:root {
+  /* Gündüz Teması (mevcut renkler zaten sabitse bunları buraya taşı) */
+  --bg-color:       #FFE6F0;
+  --text-color:     #333333;
+  --card-bg:        #FFF0F5;
+  --primary:        #E8A0BF;
+  --secondary:      #C06C84;
+  --accent:         #FF69B4;
+  --btn-bg:         #C8F7D4;
+  --btn-hover-bg:   #B0E6C2;
 
+    --cell-bg:      #ffffff;   /* hücre arka planı */
+  --cell-border:  #cccccc;   /* kenarlık rengi */
+  --cell-correct: #6aaa64;   /* doğru yer */
+  --cell-present: #c9b458;   /* farklı sırada */
+  --cell-absent:  #787c7e;   /* yok */
+  --cell-active:  #E85AAB;   /* imleçteki hücre */
+}
+
+[data-theme="dark"] {
+  /* Gece Teması */
+  --bg-color:       #2E2E3A;
+  --text-color:     #ECECEC;
+  --card-bg:        #39394D;
+  --primary:        #FF9CE1;
+  --secondary:      #D17ABB;
+  --accent:         #FF70A6;
+  --btn-bg:         #5A5A6A;
+  --btn-hover-bg:   #70707F;
+
+  /* Wordle hücre renkleri */
+  --cell-bg:        #1E1E2A;
+  --cell-border:    #555555;
+  --cell-correct:   #3A6F3E;
+  --cell-present:   #A78D2A;
+  --cell-absent:    #3A3A3C;
+  --cell-active:    var(--accent);
+}
 /* Reset */
 * {
   margin: 0;
@@ -25,9 +61,9 @@ body::before {
 
 /* Body */
 body {
-  background: #FFE6F0;
+  background: #FFE6F0;  background: var(--bg-color);
+  color: var(--text-color);
   font-family: 'Poppins', sans-serif;
-  color: #333;
   overflow-x: hidden;
 }
 
@@ -62,8 +98,16 @@ body {
   background-color: #B0E6C2;
 }
 
+/* buton her zaman üstte kalsın */
+#surpriseBtn {
+  position: relative;
+  z-index: 100;
+}
+
+
 /* Compliment */
 .compliment {
+  pointer-events: none;
   position: fixed;
   top: 20%;
   left: 50%;
@@ -180,7 +224,7 @@ body {
   text-align: center;
   margin: 2rem auto;
   padding: 1rem;
-  background: #fffafc;
+  background: var(--card-bg);
   border-radius: 12px;
   max-width: 400px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -197,33 +241,32 @@ body {
 .cell {
   width: 60px;
   height: 60px;
-  border: 2px solid #ccc;
+  background-color: var(--cell-bg);
+  border: 2px solid var(--cell-border);
+  color: var(--text-color);
   font-size: 2rem;
   text-transform: uppercase;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
   border-radius: 6px;
   font-family: 'Poppins', sans-serif;
 }
 
 .cell.correct {
-  background-color: #6aaa64;
-  border-color: #6aaa64;
-  color: white;
+  background-color: var(--cell-correct);
+  border-color:   var(--cell-correct);
 }
-
 .cell.present {
-  background-color: #c9b458;
-  border-color: #c9b458;
-  color: white;
+  background-color: var(--cell-present);
+  border-color:   var(--cell-present);
 }
-
 .cell.absent {
-  background-color: #787c7e;
-  border-color: #787c7e;
-  color: white;
+  background-color: var(--cell-absent);
+  border-color:   var(--cell-absent);
+}
+.cell.active {
+  border-color: var(--cell-active);
 }
 
 .wordle-instruction {
@@ -231,11 +274,6 @@ body {
   color: #a06fa5;
   font-size: 1rem;
   margin-top: 1rem;
-}
-
-.cell.active {
-  border-color: #E85AAB;
-  animation: blink 1s infinite;
 }
 
 @keyframes blink {
@@ -251,9 +289,6 @@ body {
 .hidden {
   display: none;
 }
-
-
-
 
 /* Footer */
 footer {
