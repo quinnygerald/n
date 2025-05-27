@@ -71,8 +71,13 @@ toggleBtn.addEventListener('click', () => {
     'Az yaklaş da öpim 💓',
     'Dişlerine ölürüm 😍',
     'Sen en büyük şansımsın 🍀',
-    'Hayatımın anlamısın 💘'
-  ];
+    'Hayatımın anlamısın 💘',
+    'İyi ki tanışmışız gibi bişi 💍💓',
+    'En güzel sen seversin ❤️',
+    'En güzel sen sevilirsin 💞',
+    'Uyuruz uyanırız geçer 🌙',
+    'Sana kurban olurum 🥺❤️‍🔥'
+]
 
   function showCompliment() {
     const idx = Math.floor(Math.random() * compliments.length);
@@ -153,14 +158,58 @@ toggleBtn.addEventListener('click', () => {
   // Day Counters
   // ===============================
   function updateDayCounter(startDateStr, elementId, invert = false) {
-    const start = new Date(startDateStr);
+    const start = new Date(startDateStr).setHours(0,0,0,0);
     const now = new Date();
     let diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
     if (invert) diff = Math.floor((start - now) / (1000 * 60 * 60 * 24));
     document.getElementById(elementId).textContent = diff;
   }
-  updateDayCounter('2024-12-21', 'dayCounter', false);
   updateDayCounter('2025-06-19', 'dayCounterFuture', true);
+
+     // Milli saniye karşılıkları
+  const MS_PER_MINUTE = 1000 * 60;
+  const MS_PER_HOUR   = MS_PER_MINUTE * 60;
+  const MS_PER_DAY    = MS_PER_HOUR * 24;
+
+  function updateElapsed(startISO, dayId, hourId, minuteId) {
+    const start = new Date(startISO).setHours(21,0,0,0);
+    const now   = new Date();
+    let diffMs = now - start;
+    console.log(diffMs)
+    if (diffMs < 0) diffMs = 0;  // henüz başlamadıysa sıfırla
+
+    // Tam gün
+    const days = Math.floor(diffMs / MS_PER_DAY);
+
+    // Kalan saat
+    const hours = Math.floor(diffMs / MS_PER_HOUR);
+
+    // Kalan dakika
+    const minutes = Math.floor(diffMs / MS_PER_MINUTE);
+
+    // DOM’a yaz
+    document.getElementById(dayId).textContent    = days;
+    document.getElementById(minuteId).textContent = minutes;
+
+      function pad2(n) { return n.toString().padStart(2,'0'); }
+
+      // —— Bugün tarihi GG.AA.YYYY ——
+    const dd = pad2(now.getDate());
+    const mm = pad2(now.getMonth() + 1);
+    const yy = now.getFullYear();
+    document.getElementById('todayDate').textContent = `${dd}.${mm}.${yy}`;
+  }
+
+  // Başlangıç zamanımız: 21 Aralık 2024, 21:00
+  const startTimeISO = '2024-12-21T21:00:00';
+
+  // İlk defa yüklenince yazdır
+  updateElapsed(startTimeISO, 'dayCounter', 'hourCounter', 'minuteCounter');
+
+  // Sonra her dakika güncelle (sayfa açık kaldıkça)
+  setInterval(() => {
+    updateElapsed(startTimeISO, 'dayCounter', 'hourCounter', 'minuteCounter');
+  }, MS_PER_MINUTE);
 
   // ===============================
   // Wordle Game
