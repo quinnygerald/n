@@ -1,34 +1,40 @@
+/* ==========================================================================
+   Variable Definitions
+   ========================================================================== */
 :root {
-  /* Gündüz Teması (mevcut renkler zaten sabitse bunları buraya taşı) */
+  /* Gündüz Teması Renkleri */
   --bg-color:       #FFE6F0;
   --text-color:     #333333;
   --card-bg:        #FFF0F5;
   --primary:        #E8A0BF;
   --secondary:      #C06C84;
-  --accent:         #FF69B4;
+  --accent:         #FF69A6;
+
   --btn-bg:         #C8F7D4;
   --btn-hover-bg:   #B0E6C2;
 
-    --cell-bg:      #ffffff;   /* hücre arka planı */
-  --cell-border:  #cccccc;   /* kenarlık rengi */
-  --cell-correct: #6aaa64;   /* doğru yer */
-  --cell-present: #c9b458;   /* farklı sırada */
-  --cell-absent:  #787c7e;   /* yok */
-  --cell-active:  #E85AAB;   /* imleçteki hücre */
+  /* Wordle Hücre Renkleri */
+  --cell-bg:        #ffffff;
+  --cell-border:    #cccccc;
+  --cell-correct:   #6aaa64;
+  --cell-present:   #c9b458;
+  --cell-absent:    #787c7e;
+  --cell-active:    #E85AAB;
 }
 
 [data-theme="dark"] {
-  /* Gece Teması */
+  /* Gece Teması Renkleri */
   --bg-color:       #2E2E3A;
   --text-color:     #ECECEC;
   --card-bg:        #39394D;
   --primary:        #FF9CE1;
   --secondary:      #D17ABB;
   --accent:         #FF70A6;
+
   --btn-bg:         #5A5A6A;
   --btn-hover-bg:   #70707F;
 
-  /* Wordle hücre renkleri */
+  /* Wordle Hücre Renkleri */
   --cell-bg:        #1E1E2A;
   --cell-border:    #555555;
   --cell-correct:   #3A6F3E;
@@ -36,22 +42,32 @@
   --cell-absent:    #3A3A3C;
   --cell-active:    var(--accent);
 }
-/* Reset */
+
+/* ==========================================================================
+   Reset & Base Styles
+   ========================================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Sparkle background */
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Sparkle Background Efekti */
 body::before {
   content: '';
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  inset: 0;
   background: url('sparkles.png') repeat;
-  animation: sparkle 5s linear infinite;
   opacity: 0.2;
+  animation: sparkle 5s linear infinite;
   pointer-events: none;
 }
 @keyframes sparkle {
@@ -59,15 +75,29 @@ body::before {
   to   { background-position: 1000px 1000px; }
 }
 
-/* Body */
-body {
-  background: #FFE6F0;  background: var(--bg-color);
-  color: var(--text-color);
-  font-family: 'Poppins', sans-serif;
-  overflow-x: hidden;
+/* ==========================================================================
+   Theme Toggle Butonu
+   ========================================================================== */
+#themeToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: var(--btn-bg);
+  border: none;
+  border-radius: 30px;
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+#themeToggle:hover {
+  transform: scale(1.05);
+  background-color: var(--btn-hover-bg);
 }
 
-/* Hero */
+/* ==========================================================================
+   Hero Bölümü
+   ========================================================================== */
 .hero {
   text-align: center;
   padding: 4rem 1rem;
@@ -75,17 +105,15 @@ body {
 .hero h1 {
   font-family: 'Pacifico', cursive;
   font-size: 3rem;
-  color: #E8A0BF;
+  color: var(--primary);
   margin-bottom: 0.5rem;
 }
-.hero p {
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-}
 
-/* Button */
+/* ==========================================================================
+   Genel Buton Stilleri
+   ========================================================================== */
 .btn {
-  background: #C8F7D4;
+  background: var(--btn-bg);
   border: none;
   border-radius: 30px;
   padding: 0.8rem 1.5rem;
@@ -95,21 +123,26 @@ body {
 }
 .btn:hover {
   transform: scale(1.05);
-  background-color: #B0E6C2;
+  background-color: var(--btn-hover-bg);
 }
 
-/* buton her zaman üstte kalsın */
+/* ==========================================================================
+   Sürpriz Butonu (İltifat & Konfeti)
+   ========================================================================== */
 #surpriseBtn {
+  font-family: 'Sour Gummy', sans-serif;
   position: relative;
   z-index: 100;
+  color: var(--text-color);
 }
 
-
-/* Compliment */
+/* ==========================================================================
+   İltifat Kutusu
+   ========================================================================== */
 .compliment {
   pointer-events: none;
   position: fixed;
-  top: 20%;
+  top: 30%;
   left: 50%;
   transform: translateX(-50%);
   background: #FFF;
@@ -118,7 +151,7 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   font-family: 'Pacifico', cursive;
   font-size: 1.5rem;
-  color: #E85AAB;
+  color: var(--cell-active);
   opacity: 0;
   transition: opacity 0.5s ease;
   z-index: 200;
@@ -127,26 +160,111 @@ body {
   opacity: 1;
 }
 
-/* Typewriter */
+/* ==========================================================================
+   Typewriter Efekti
+   ========================================================================== */
 .typewriter {
   font-family: 'Pacifico', cursive;
   font-size: 1.8rem;
   text-align: center;
-  color: #E8A0BF;
+  color: var(--primary);
   margin: 1.5rem 1rem;
-  height: 2.2rem; /* satır yüksekliği kadar */
+  height: 2.2rem; /* sabit satır yüksekliği */
 }
 
-/* Gallery */
+/* ==========================================================================
+   Sayaç Kutusu
+   ========================================================================== */
+.counter-box {
+  text-align: center;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem auto;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: 'Pacifico', cursive;
+  font-size: 1.2rem;
+  color: var(--secondary);
+}
+.counter-box strong {
+  color: #ca84d3;
+  font-size: 1.5rem;
+}
+.counter-box span {
+  font-size: 2rem;
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   Wordle Bölümü
+   ========================================================================== */
+.wordle-section {
+  background: var(--card-bg);
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+.wordle-section h2 {
+  font-family: 'Pacifico', cursive;
+  margin-bottom: 0.5rem;
+}
+.board {
+  display: grid;
+  grid-template-columns: repeat(5, 60px);
+  grid-gap: 10px;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.cell {
+  width: 60px;
+  height: 60px;
+  background-color: var(--cell-bg);
+  border: 2px solid var(--cell-border);
+  color: var(--text-color);
+  font-size: 2rem;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-family: 'Poppins', sans-serif;
+}
+.cell.correct {
+  background-color: var(--cell-correct);
+  border-color: var(--cell-correct);
+}
+.cell.present {
+  background-color: var(--cell-present);
+  border-color: var(--cell-present);
+}
+.cell.absent {
+  background-color: var(--cell-absent);
+  border-color: var(--cell-absent);
+}
+.cell.active {
+  border-color: var(--cell-active);
+}
+.wordle-instruction {
+  font-family: 'Pacifico', cursive;
+  color: var(--secondary);
+  margin-top: 1rem;
+}
+#resetBtn {
+  font-family: 'Pacifico', cursive;
+  margin: 1.5rem auto;
+  display: block;
+  color: var(--text-color);
+}
+
+/* ==========================================================================
+   Galeri
+   ========================================================================== */
 .gallery {
   padding: 2rem 1rem;
-}
-.gallery h2 {
-  text-align: center;
-  font-family: 'Pacifico', cursive;
-  font-size: 2rem;
-  color: #A58AFF;
-  margin-bottom: 1.5rem;
 }
 .grid {
   display: grid;
@@ -169,7 +287,9 @@ body {
   box-shadow: 0 12px 24px rgba(0,0,0,0.2);
 }
 
-/* Music */
+/* ==========================================================================
+   Müzik Kontrolü
+   ========================================================================== */
 #musicControl {
   position: fixed;
   bottom: 20px;
@@ -178,21 +298,21 @@ body {
   cursor: pointer;
 }
 
-/* Heart rain canvas */
+/* ==========================================================================
+   Kalp Yağan Canvas
+   ========================================================================== */
 #heartCanvas {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  inset: 0;
   pointer-events: none;
   z-index: 50;
 }
 
+/* Kalp parçacıkları animasyonu */
 .fallHeart {
   position: absolute;
   bottom: 0;
   font-size: 2rem;
-  pointer-events: auto;
-  cursor: pointer;
   animation: floatUp 4s linear forwards;
 }
 @keyframes floatUp {
@@ -200,97 +320,9 @@ body {
   to   { transform: translateY(-100vh); }
 }
 
-.counter-box {
-  text-align: center;
-  background: #FFF0F5;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin: 2rem auto;
-  max-width: 400px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  font-family: 'Pacifico', cursive;
-  font-size: 1.2rem;
-  color: #C06C84;
-}
-.counter-box strong {
-  color: #A052AA;
-}
-#dayCounter, #dayCounterFuture {
-  font-size: 2rem;
-  color: #FF69B4;
-}
-
-.wordle-section {
-  text-align: center;
-  margin: 2rem auto;
-  padding: 1rem;
-  background: var(--card-bg);
-  border-radius: 12px;
-  max-width: 400px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.board {
-  display: grid;
-  grid-template-columns: repeat(5, 60px);
-  grid-gap: 10px;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.cell {
-  width: 60px;
-  height: 60px;
-  background-color: var(--cell-bg);
-  border: 2px solid var(--cell-border);
-  color: var(--text-color);
-  font-size: 2rem;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  font-family: 'Poppins', sans-serif;
-}
-
-.cell.correct {
-  background-color: var(--cell-correct);
-  border-color:   var(--cell-correct);
-}
-.cell.present {
-  background-color: var(--cell-present);
-  border-color:   var(--cell-present);
-}
-.cell.absent {
-  background-color: var(--cell-absent);
-  border-color:   var(--cell-absent);
-}
-.cell.active {
-  border-color: var(--cell-active);
-}
-
-.wordle-instruction {
-  font-family: 'Pacifico', cursive;
-  color: #a06fa5;
-  font-size: 1rem;
-  margin-top: 1rem;
-}
-
-@keyframes blink {
-  0%, 100% { border-color: #E85AAB; }
-  50% { border-color: transparent; }
-}
-
-#resetBtn {
-  margin: 1.5rem auto;
-  display: block;
-}
-
-.hidden {
-  display: none;
-}
-
-/* Footer */
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 footer {
   text-align: center;
   padding: 1rem 0;
