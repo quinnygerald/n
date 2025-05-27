@@ -55,6 +55,16 @@ toggleBtn.addEventListener('click', () => {
   // ===============================
   // Compliment & Surprise Button
   // ===============================
+
+  const heartScroll = document.getElementById('toGallery');
+  const gallerySection = document.querySelector('.gallery');
+
+  heartScroll.addEventListener('click', () => {
+    // .gallery bölümüne smooth scroll
+    gallerySection.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  let surpriseClicks = 0;  // sayacı ekledik
   const surpriseBtn = document.getElementById('surpriseBtn');
   const complimentEl = document.getElementById('compliment');
   const compliments = [
@@ -126,14 +136,18 @@ toggleBtn.addEventListener('click', () => {
     particles.push(new Particle());
   }
 
+  let particleAnimId;      // en başta declare et
+
   function animateParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     particles.forEach(p => {
       p.update();
       p.draw();
     });
-    requestAnimationFrame(animateParticles);
+    // ↪️ requestAnimationFrame ID’sini sakla ki iptal edebilesin
+    particleAnimId = requestAnimationFrame(animateParticles);
   }
+
 
   // ===============================
   // Day Counters
@@ -286,6 +300,22 @@ const wordList = [
     typeWriter();
     animateParticles();
     surpriseBtn.textContent = 'bi daha?';
+
+        // her tıklamada sayacı artır
+    surpriseClicks++;
+    // üçüncü tıklamada yeni “kalp kontrol” butonunu ekle
+    if (surpriseClicks === 5) {
+      surpriseBtn.textContent = 'çok mu kalp oldu ?';
+
+      // bu yeni butona tıklanınca…
+      surpriseBtn.addEventListener('click', () => {
+        // 1) mevcut kalp partiküllerini iptal et
+        particles = [];
+        cancelAnimationFrame(particleAnimId);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        surpriseBtn.textContent = 'bi daha?';
+      });
+    }
   });
 
   // ===============================
