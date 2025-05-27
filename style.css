@@ -292,6 +292,66 @@ body::before {
 }
 
 /* ==========================================================================
+   Lightbox / Modal Galeri
+   ========================================================================== */
+.hidden { display: none; }
+
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 2000;
+}
+
+#lightboxImg {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+/* Ortadaki ok ve kapatma düğmeleri */
+.lightbox-btn {
+  position: absolute;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.5rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: transform 0.2s ease;
+}
+.lightbox-btn:hover {
+  transform: scale(1.2);
+}
+
+#lightboxClose {
+  top: 20px;
+  right: 30px;
+}
+
+#lightboxPrev, #lightboxNext {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#lightboxPrev { left: 30px; }
+#lightboxNext { right: 30px; }
+
+/* Lightbox / Modal Galeri */
+.hidden {
+  display: none;
+}
+
+#lightbox.hidden {
+  display: none;
+}
+
+/* ==========================================================================
    Müzik Kontrolü
    ========================================================================== */
 #musicControl {

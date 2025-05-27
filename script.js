@@ -318,6 +318,79 @@ const wordList = [
     }
   });
 
+// <<<--- GALLERY LIGHTBOX KONTROLÜ --->>>
+document.addEventListener('DOMContentLoaded', () => {
+  const grid         = document.querySelector('.grid');
+  const thumbs       = Array.from(grid.querySelectorAll('.thumb'));
+  const lightbox     = document.getElementById('lightbox');
+  const lightboxImg  = document.getElementById('lightboxImg');
+  const closeBtn     = document.getElementById('lightboxClose');
+  const prevBtn      = document.getElementById('lightboxPrev');
+  const nextBtn      = document.getElementById('lightboxNext');
+  let currentIndex   = -1;
+
+  // Yardımcı: lightbox’ı aç/kapa
+  function openLightbox(idx) {
+    currentIndex = idx;
+    lightboxImg.src = thumbs[currentIndex].src;
+    lightbox.classList.remove('hidden');
+  }
+  function closeLightbox() {
+    lightbox.classList.add('hidden');
+    currentIndex = -1;
+  }
+
+  // 1) Thumbnail’a tıklanınca aç
+  grid.addEventListener('click', e => {
+    if (!e.target.classList.contains('thumb')) return;
+    const idx = thumbs.indexOf(e.target);
+    if (idx < 0) return;
+    openLightbox(idx);
+  });
+
+  // 2) “×” butonuna tıklayınca kapa
+  closeBtn.addEventListener('click', () => {
+    closeLightbox();
+  });
+
+  // 3) Overlay’ın boş yerine tıklayınca kapa
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  // 4) Önceki resim
+  prevBtn.addEventListener('click', e => {
+    e.stopPropagation(); // overlay click’ini engelle
+    if (currentIndex < 0) return;
+    currentIndex = (currentIndex - 1 + thumbs.length) % thumbs.length;
+    lightboxImg.src = thumbs[currentIndex].src;
+  });
+
+  // 5) Sonraki resim
+  nextBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    if (currentIndex < 0) return;
+    currentIndex = (currentIndex + 1) % thumbs.length;
+    lightboxImg.src = thumbs[currentIndex].src;
+  });
+
+  // 6) Klavye ile kontrol: ESC, ←, →
+  document.addEventListener('keydown', e => {
+    if (lightbox.classList.contains('hidden')) return;
+    if (e.key === 'Escape') {
+      closeLightbox();
+    }
+    else if (e.key === 'ArrowLeft') {
+      prevBtn.click();
+    }
+    else if (e.key === 'ArrowRight') {
+      nextBtn.click();
+    }
+  });
+});
+
   // ===============================
   // Initialize all components on DOMContentLoaded
   // ===============================
