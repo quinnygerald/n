@@ -16,7 +16,7 @@ function typeWriter(text, i, fnCallback) {
 // Özür mesajını başlat ve kalp yağdır
 function startApology() {
   typeWriter("Sarılalım mı gülüm?", 0, () => {
-    btn.textContent = "seni .ok seviyorum ❤️";
+    btn.textContent = "seni çok seviyorum ❤️";
   });
   createHearts();
 }
