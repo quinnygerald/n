@@ -1,28 +1,37 @@
-/* Genel Ayarlar */
-* { margin:0; padding:0; box-sizing: border-box; }
-body {
-  font-family: 'Poppins', sans-serif;
-  background: #FFE6F0;
-  overflow-x: hidden;
-  color: #333;
+/* style.css */
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Kalp Patlaması */
-.hearts {
+/* Sparkle background */
+body::before {
+  content: '';
   position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: url('sparkles.png') repeat;
+  animation: sparkle 5s linear infinite;
+  opacity: 0.2;
   pointer-events: none;
-  background-image: url('heart.png');
-  animation: floatHearts 10s linear infinite;
-  opacity: 0.15;
 }
-@keyframes floatHearts {
+@keyframes sparkle {
   from { background-position: 0 0; }
-  to   { background-position: -1000px 1000px; }
+  to   { background-position: 1000px 1000px; }
 }
 
-/* Hero Bölümü */
+/* Body */
+body {
+  background: #FFE6F0;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* Hero */
 .hero {
   text-align: center;
   padding: 4rem 1rem;
@@ -38,49 +47,113 @@ body {
   margin-bottom: 2rem;
 }
 
-/* Buton */
+/* Button */
 .btn {
-  font-family: 'Poppins', sans-serif;
   background: #C8F7D4;
   border: none;
-  padding: 0.8rem 1.5rem;
   border-radius: 30px;
+  padding: 0.8rem 1.5rem;
   font-size: 1rem;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
-.btn:hover { transform: scale(1.1); }
+.btn:hover {
+  transform: scale(1.05);
+  background-color: #B0E6C2;
+}
 
-/* Galeri */
+/* Compliment */
+.compliment {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #FFF;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  font-family: 'Pacifico', cursive;
+  font-size: 1.5rem;
+  color: #E85AAB;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 200;
+}
+.compliment.show {
+  opacity: 1;
+}
+
+/* Typewriter */
+.typewriter {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.8rem;
+  text-align: center;
+  color: #E8A0BF;
+  margin: 1.5rem 1rem;
+  height: 2.2rem; /* satır yüksekliği kadar */
+}
+
+/* Gallery */
 .gallery {
   padding: 2rem 1rem;
-  text-align: center;
 }
 .gallery h2 {
+  text-align: center;
   font-family: 'Pacifico', cursive;
   font-size: 2rem;
   color: #A58AFF;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 .grid {
   display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+  gap: 1rem 1.5rem;
+  max-width: 90%;
+  margin: 0 auto;
 }
 .thumb {
   width: 100%;
-  border-radius: 8px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 12px;
   cursor: pointer;
-  transition: transform .2s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.thumb:hover { transform: scale(1.05); }
+.thumb:hover {
+  transform: scale(1.35);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+}
 
-/* Müzik Kontrol */
+/* Music */
 #musicControl {
   position: fixed;
-  bottom: 20px; right: 20px;
+  bottom: 20px;
+  right: 20px;
   font-size: 2rem;
   cursor: pointer;
+}
+
+/* Heart rain canvas */
+#heartCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.fallHeart {
+  position: absolute;
+  bottom: 0;
+  font-size: 2rem;
+  pointer-events: auto;
+  cursor: pointer;
+  animation: floatUp 4s linear forwards;
+}
+@keyframes floatUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-100vh); }
 }
 
 /* Footer */
