@@ -354,13 +354,85 @@ body::before {
 /* ==========================================================================
    Müzik Kontrolü
    ========================================================================== */
-#musicControl {
+.music-player {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  font-size: 2rem;
-  cursor: pointer;
+  display: flex;
+  flex-direction: column-reverse;  /* liste üstte, buton altta */
+  align-items: flex-end;
+  gap: .5rem;
+  z-index: 1000;                   /* canvas’ın üstünde göster */
 }
+/* Playlist zaten fixed, ama yüksek z-index’li wrapper içinde old. gerek kalmadı */
+.playlist {
+  list-style: none;
+  background: var(--card-bg);
+  padding: .5rem;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  /* position: fixed;  <-- istersen kaldır, wrapper’dan alınır */
+}
+.playlist li {
+  padding: .3rem .6rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.playlist li.active {
+  background: var(--accent);
+  color: #fff;
+}
+.playlist li:hover {
+  background: var(--btn-hover-bg);
+}
+
+/* Butonu wrapper’ın içinde konumlandır, sabit pozisyonu kaldır */
+.music-control-btn {
+  /* position: fixed;  <-- bu satırı sil */
+  /* bottom/right sil */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--btn-bg);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.music-control-btn:hover {
+  background: var(--btn-hover-bg);
+}
+.ctrl-icon {
+  font-size: 1.5rem;
+  user-select: none;
+}
+
+/* Toggle ok stili */
+.toggle-icon {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.music-player.closed .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+/* Listeyi collapse/expand et */
+.music-player .playlist {
+  max-height: 200px;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.music-player.closed .playlist {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
 
 /* ==========================================================================
    Kalp Yağan Canvas

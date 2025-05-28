@@ -86,8 +86,29 @@
   <button id="resetBtn" class="btn hidden">Bi Daha Oynicam 🔄</button>
   </section>
 
-  <audio id="bgMusic" src="assets/music/Duman - Elleri Ellerim.mp3" loop autoplay muted></audio>
-  <div id="musicControl">🎶</div>
+<!-- Mevcut audio elemanını güncelliyoruz: src değil, sadece id ve controls yok -->
+<audio id="bgMusic" loop ></audio>
+
+<!-- Yeni: Playlist kontrol butonları -->
+<div class="music-player">
+  <!-- 1) Tek butonlu kontrol -->
+  <button id="musicControl" class="music-control-btn btn">
+    <span data-action="prev" class="ctrl-icon">⏮️</span>
+    <span data-action="play" class="ctrl-icon">▶️</span>
+    <span data-action="next" class="ctrl-icon">⏭️</span>
+  <span id="playlistToggle" class="ctrl-icon toggle-icon">▾</span>
+
+  </button>
+
+  <!-- 2) Collapse/Expand ikonu -->
+
+  <!-- 3) Asıl liste -->
+  <ul id="playlist" class="playlist">
+    <!-- JS ile doldurulacak -->
+  </ul>
+</div>
+
+
   <canvas id="heartCanvas"></canvas>
 
   <footer>Made with ❤️ for Naziş</footer>

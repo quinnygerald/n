@@ -33,24 +33,24 @@ toggleBtn.addEventListener('click', () => {
 });
 
 
-  // ===============================
-  // Music Control
-  // ===============================
-  const music = document.getElementById('bgMusic');
-  const musicCtrl = document.getElementById('musicControl');
+  // // ===============================
+  // // Music Control
+  // // ===============================
+  // const music = document.getElementById('bgMusic');
+  // const musicCtrl = document.getElementById('musicControl');
 
-  // Attempt to play on load (may be blocked by browser if not muted/user-interacted)
-  music.play().catch(() => { /* autoplay blocked */ });
+  // // Attempt to play on load (may be blocked by browser if not muted/user-interacted)
+  // music.play().catch(() => { /* autoplay blocked */ });
 
-  musicCtrl.addEventListener('click', () => {
-    if (music.paused) {
-      music.play();
-      musicCtrl.textContent = '🎶';
-    } else {
-      music.pause();
-      musicCtrl.textContent = '🎧';
-    }
-  });
+  // musicCtrl.addEventListener('click', () => {
+  //   if (music.paused) {
+  //     music.play();
+  //     musicCtrl.textContent = '🎶';
+  //   } else {
+  //     music.pause();
+  //     musicCtrl.textContent = '🎧';
+  //   }
+  // });
 
   // ===============================
   // Compliment & Surprise Button
@@ -171,7 +171,7 @@ toggleBtn.addEventListener('click', () => {
   const MS_PER_HOUR   = MS_PER_MINUTE * 60;
   const MS_PER_DAY    = MS_PER_HOUR * 24;
 
-  function updateElapsed(startISO, dayId, hourId, minuteId) {
+  function updateElapsed(startISO, dayId, minuteId) {
     const start = new Date(startISO).setHours(21,0,0,0);
     const now   = new Date();
     let diffMs = now - start;
@@ -181,8 +181,6 @@ toggleBtn.addEventListener('click', () => {
     // Tam gün
     const days = Math.floor(diffMs / MS_PER_DAY);
 
-    // Kalan saat
-    const hours = Math.floor(diffMs / MS_PER_HOUR);
 
     // Kalan dakika
     const minutes = Math.floor(diffMs / MS_PER_MINUTE);
@@ -204,11 +202,11 @@ toggleBtn.addEventListener('click', () => {
   const startTimeISO = '2024-12-21T21:00:00';
 
   // İlk defa yüklenince yazdır
-  updateElapsed(startTimeISO, 'dayCounter', 'hourCounter', 'minuteCounter');
+  updateElapsed(startTimeISO, 'dayCounter', 'minuteCounter');
 
   // Sonra her dakika güncelle (sayfa açık kaldıkça)
   setInterval(() => {
-    updateElapsed(startTimeISO, 'dayCounter', 'hourCounter', 'minuteCounter');
+    updateElapsed(startTimeISO, 'dayCounter', 'minuteCounter');
   }, MS_PER_MINUTE);
 
   // ===============================
@@ -440,10 +438,103 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+  // --- 1. Şarkı listesi ---
+// script.js içindeki tracks tanımı
+const tracks = [
+  { src: 'assets/music/Duman - Elleri Ellerime.mp3',           title: 'Duman – Elleri Ellerime' },
+  { src: 'assets/music/Güllü - Haylazim 2002.mp3',             title: 'Güllü – Haylazım' },
+  { src: 'assets/music/Kaan Boşnak - Bırakma Kendini.mp3',     title: 'Kaan Boşnak – Bırakma Kendini' },
+  { src: 'assets/music/Mirkelam - Asuman Pansuman.mp3',        title: 'Mirkelam – Asuman Pansuman' },
+  { src: 'assets/music/NF - Time.mp3',                         title: 'NF – Time' },
+  { src: 'assets/music/Oğuzhan Koç - Yüzük - Official Audio - Esen Müzik.mp3', title: 'Oğuzhan Koç – Yüzük' },
+  { src: 'assets/music/Sibel Can - Emret Öleyim (Official Video).mp3', title: 'Sibel Can – Emret Öleyim' }
+];
+
+  let currentTrack = 0;
+
+  // --- 2. Elemanlar ---
+  const audio   = document.getElementById('bgMusic');
+  const control = document.getElementById('musicControl');
+  const playIcon = control.querySelector('[data-action="play"]');
+  const listEl = document.getElementById('playlist');
+    // --- Collapse/Expand için elementler ---
+  const playlistToggle = document.getElementById('playlistToggle');
+  const musicPlayer    = document.querySelector('.music-player');
+
+  // Toggle’a tıklanınca .closed sınıfını aç/kapa
+  playlistToggle.addEventListener('click', () => {
+    musicPlayer.classList.toggle('closed');
+  });
+  
+    function updateActiveClass() {
+  listEl.querySelectorAll('li').forEach((li, i) => {
+    li.classList.toggle('active', i === currentTrack);
+  })};
+
+
+  // --- 3. Track yükleme ---
+  function loadTrack(index) {
+    currentTrack = index;
+    audio.src = tracks[currentTrack].src;
+    updateActiveClass();
+    updatePlayIcon();
+  }
+
+function renderPlaylist() {
+  listEl.innerHTML = '';
+  tracks.forEach((t,i) => {
+    const li = document.createElement('li');
+    li.textContent = t.title;
+    if (i === currentTrack) li.classList.add('active');
+    li.addEventListener('click', () => {
+      loadTrack(i);
+      audio.play();
+    });
+    listEl.appendChild(li);
+  });
+}
+
+  // --- 4. İkonu güncelle ---
+  function updatePlayIcon() {
+    playIcon.textContent = audio.paused ? '▶️' : '⏸️';
+  }
+
+  // --- 5. Olay dinleyici ---
+  control.addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const action = btn.dataset.action;
+
+
+    switch (action) {
+      case 'prev':
+        loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
+        audio.play();
+        break;
+      case 'play':
+        audio.paused ? audio.play() : audio.pause();
+        break;
+      case 'next':
+        loadTrack((currentTrack + 1) % tracks.length);
+        audio.play();
+        break;
+    }
+  });
+
+  // --- 6. Audio eventleri ---
+  audio.addEventListener('play',  updatePlayIcon);
+  audio.addEventListener('pause', updatePlayIcon);
+  audio.addEventListener('ended', () => {
+    loadTrack((currentTrack + 1) % tracks.length);
+    audio.play();
+  });
+
   // ===============================
   // Initialize all components on DOMContentLoaded
   // ===============================
   document.addEventListener('DOMContentLoaded', () => {
+    loadTrack(0);
+    renderPlaylist();
     initWordle();
     // Note: typewriter, particles, and day counters run when surpriseBtn is clicked or on load
   });
